@@ -45,12 +45,13 @@ libraryDependencies ++= Seq(
   "org.skinny-framework" %% "skinny-orm" % "2.3.7",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "com.adrianhurt" %% "play-bootstrap" % "1.1-P25-B3",
+  "com.github.t3hnar" %% "scala-bcrypt" % "3.0",
   "mysql" % "mysql-connector-java" % "6.0.6",
   "org.flywaydb" %% "flyway-play" % "3.1.0"
 )
 
 // Adds additional packages into Twirl
-// TwirlKeys.templateImports ++= Seq(...)
+TwirlKeys.templateImports ++= Seq("forms._")
 
 // Adds additional packages into conf/routes
 // play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"
