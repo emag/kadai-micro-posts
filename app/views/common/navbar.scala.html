@@ -13,7 +13,7 @@
           <span class="icon-bar"></span>
         </button>
         @if(userOpt.isEmpty) {
-          <a class="navbar-brand" href="@routes.HomeController.index()">@Messages("ApplicationName")</a>
+          <a class="navbar-brand" href="@routes.HomeController.index(Pager.default)">@Messages("ApplicationName")</a>
         } else {
           <a class="navbar-brand" href="#">@Messages("ApplicationName")</a>
         }
