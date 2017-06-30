@@ -4,17 +4,18 @@ import javax.inject._
 
 import jp.t2v.lab.play2.auth.OptionalAuthElement
 import jp.t2v.lab.play2.pager.{ Pager, SearchResult }
-import models.MicroPost
+import models.{ Favorite, MicroPost }
 import play.api.Logger
 import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.{ I18nSupport, Messages, MessagesApi }
 import play.api.mvc._
-import services.{ MicroPostService, UserService }
+import services.{ FavoriteService, MicroPostService, UserService }
 
 @Singleton
 class HomeController @Inject()(val userService: UserService,
                                val microPostService: MicroPostService,
+                               val favoriteService: FavoriteService,
                                val messagesApi: MessagesApi)
     extends Controller
     with I18nSupport
@@ -32,7 +33,8 @@ class HomeController @Inject()(val userService: UserService,
         microPostService
           .findAllByWithLimitOffset(pager, user.id.get)
           .map { searchResult =>
-            Ok(views.html.index(userOpt, postForm, searchResult))
+            // FIXME microPostService みたいに map して recover するにはどうする?
+            Ok(views.html.index(userOpt, postForm, searchResult, favoriteService.findById(user.id.get).get))
           }
           .recover {
             case e: Exception =>
@@ -43,7 +45,9 @@ class HomeController @Inject()(val userService: UserService,
           .getOrElse(InternalServerError(Messages("InternalError")))
       }
       .getOrElse(
-        Ok(views.html.index(userOpt, postForm, SearchResult(pager, 0)(_ => Seq.empty[MicroPost])))
+        Ok(
+          views.html.index(userOpt, postForm, SearchResult(pager, 0)(_ => Seq.empty[MicroPost]), List.empty[Favorite])
+        )
       )
   }
 

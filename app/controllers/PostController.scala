@@ -65,7 +65,7 @@ class PostController @Inject()(
     microPostService
       .findAllByWithLimitOffset(pager, user.id.get)
       .map { searchResult =>
-        BadRequest(views.html.index(Some(user), formWithErrors, searchResult))
+        BadRequest(views.html.index(Some(user), formWithErrors, searchResult, Nil))
       }
       .recover {
         case e: Exception =>
