@@ -43,7 +43,7 @@ class UsersController @Inject()(val userService: UserService,
     val triedMicroPosts     = microPostService.findByUserId(pager, userId)
     val triedFollowingsSize = userFollowService.countByUserId(userId)
     val triedFollowersSize  = userFollowService.countByFollowId(userId)
-    val triedFavorites      = favoriteService.findById(userId)
+    val triedFavorites      = favoriteService.findById(loggedIn.id.get)
     (for {
       userOpt        <- triedUserOpt
       userFollows    <- triedUserFollows
